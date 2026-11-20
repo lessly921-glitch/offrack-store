@@ -4,92 +4,357 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
 <title>OFFRACK® | Thrift Store</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#090909;color:white;font-family:Arial,sans-serif}
-header{padding:18px;background:#111;position:sticky;top:0;z-index:5}
-.logo{font-size:30px;font-weight:1000;color:#ed101f;letter-spacing:-2px}
-.tag{font-size:10px;letter-spacing:4px;color:#ccc;margin-top:4px}
-.search{margin-top:17px;display:flex;gap:8px}
-.search input{width:100%;padding:14px;border:1px solid #444;border-radius:10px;background:#222;color:white}
-.hero{margin:15px;padding:25px 18px;background:linear-gradient(120deg,#280509,#111);border:1px solid #681018;border-radius:12px;min-height:190px;display:flex;flex-direction:column;justify-content:center}
-.hero h1{font-size:38px;color:#ed101f}
-.hero p{margin:10px 0;color:#ddd}
-button{background:#ed101f;color:white;border:0;padding:12px 18px;border-radius:8px;font-weight:bold}
-section{padding:18px}
-h2{font-size:19px;margin-bottom:15px}
-.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.category{background:#191919;border:1px solid #333;border-radius:10px;padding:20px 5px;text-align:center;font-weight:bold}
-.category span{display:block;font-size:25px;margin-bottom:8px}
-.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.empty{grid-column:1/-1;text-align:center;padding:35px 12px;background:#151515;border:1px dashed #555;border-radius:10px;color:#aaa}
-.whatsapp{margin:18px;padding:18px;background:#151515;border:1px solid #ed101f;border-radius:12px;text-align:center}
-.whatsapp a{display:block;color:white;text-decoration:none;font-weight:bold;margin-top:12px}
-footer{text-align:center;background:#111;padding:25px;color:#aaa;font-size:12px;line-height:2}
-nav{position:sticky;bottom:0;background:#111;display:flex;justify-content:space-around;padding:15px 4px;border-top:1px solid #333}
-nav a{color:white;text-decoration:none;font-size:12px}
-nav a:first-child{color:#ed101f}
+:root{--red:#e32636;--black:#111;--muted:#777;--bg:#f5f5f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#171717}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.top{background:#111;color:white;text-align:center;padding:8px;font-size:12px}
+header{background:white;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}
+.head{max-width:1200px;margin:auto;padding:14px 4%;display:flex;align-items:center;gap:18px}
+.logo{font-size:27px;font-weight:1000;letter-spacing:-1px;color:#111;text-decoration:none}
+.logo span{color:var(--red)}
+.search{flex:1;display:flex;border:1px solid #ddd;border-radius:5px;overflow:hidden}
+.search input{border:0;outline:0;padding:12px;width:100%;min-width:0}
+.search button,.primary{background:var(--red);color:white;border:0;padding:12px 18px;font-weight:bold}
+.head-actions{display:flex;gap:14px;align-items:center}
+.head-actions button{border:0;background:white;font-weight:bold}
+nav{display:flex;gap:22px;padding:0 4% 13px;max-width:1200px;margin:auto;overflow:auto}
+nav a{color:#333;text-decoration:none;font-size:13px;white-space:nowrap}
+.hero{max-width:1200px;margin:18px auto;padding:35px 5%;background:#171717;color:white;min-height:210px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.hero h1{font-size:clamp(30px,5vw,54px);margin:0 0 10px;line-height:1}
+.hero h1 span{color:var(--red)}
+.hero p{color:#ddd}
+.hero .primary{display:inline-block;text-decoration:none;margin-top:10px}
+.hero-mark{font-size:clamp(50px,12vw,120px);font-weight:1000;color:#ffffff12}
+.wrap{max-width:1200px;margin:24px auto;padding:0 4%}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:25px 0 15px}
+.section-head h2{font-size:21px;margin:0}
+.categories{display:flex;gap:10px;overflow:auto;padding-bottom:5px}
+.cat{border:1px solid #ddd;background:white;border-radius:20px;padding:10px 17px;white-space:nowrap}
+.cat.active{background:#171717;color:white}
+.filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.filters input,.filters select{padding:10px;border:1px solid #ddd;background:white;border-radius:5px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.product{background:white;border-radius:6px;overflow:hidden;position:relative}
+.product img{width:100%;height:220px;object-fit:cover;background:#eee;display:block}
+.product-info{padding:12px}
+.product h3{font-size:15px;margin:0 0 8px}
+.price{font-weight:800;font-size:17px}
+.muted{color:var(--muted);font-size:12px}
+.product-actions{display:flex;gap:7px;margin-top:12px}
+.product-actions button{flex:1;padding:10px 5px;border:0;border-radius:4px;font-size:12px;font-weight:bold}
+.order{background:var(--red);color:white}
+.heart{background:#eee}
+.empty{background:white;padding:35px;text-align:center;color:#666;grid-column:1/-1}
+footer{background:#111;color:white;margin-top:40px;padding:30px 5%;text-align:center}
+footer p{color:#bbb;font-size:13px}
+.admin-link{color:#bbb;background:none;border:0;text-decoration:underline}
+.panel{display:none;background:white;padding:20px;margin:20px auto;border-radius:8px;max-width:1200px}
+.panel.show{display:block}
+.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.panel input,.panel textarea,.panel select{width:100%;padding:11px;border:1px solid #ddd;border-radius:5px}
+.panel label{font-size:13px;font-weight:bold;display:block;margin-bottom:5px}
+.field{margin-bottom:12px}
+.admin-product{display:flex;gap:12px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}
+.admin-product img{width:55px;height:55px;object-fit:cover}
+.admin-product button{padding:7px;border:0;border-radius:4px}
+.danger{background:#fee;color:#b00}
+.secondary{background:#eee}
+.notice{background:#fff3cd;color:#654d00;padding:12px;border-radius:5px;font-size:13px;margin:12px 0}
+.cart-box{position:fixed;inset:0;background:#0008;z-index:10;display:none;justify-content:flex-end}
+.cart-box.show{display:flex}
+.cart{background:white;width:min(420px,100%);height:100%;padding:20px;overflow:auto}
+.cart-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #eee}
+.cart-row button{border:0;background:#eee;padding:5px}
+.close{float:right;border:0;background:#eee;padding:8px}
+.bottom{display:none}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.product img{height:190px}.hero-mark{display:none}.head{flex-wrap:wrap}.search{order:3;flex-basis:100%}.head-actions{margin-left:auto}}
+@media(max-width:450px){.grid{gap:9px}.product img{height:160px}.product-info{padding:9px}.product h3{font-size:13px}.product-actions button{font-size:11px}.admin-grid{grid-template-columns:1fr}.hero{margin:10px;padding:25px 6%}}
 </style>
 </head>
 <body>
-
+<div class="top">WELCOME TO OFFRACK® — YOUR THRIFT MARKETPLACE</div>
 <header>
-<div class="logo">OFFRACK®</div>
-<div class="tag">THRIFT • STREETWEAR • VINTAGE</div>
-<div class="search">
-<input type="search" placeholder="Search for thrift finds...">
-</div>
+ <div class="head">
+  <a class="logo" href="#">OFFRACK<span>®</span></a>
+  <div class="search">
+   <input id="search" placeholder="Search products..." aria-label="Search products">
+   <button onclick="renderProducts()">SEARCH</button>
+  </div>
+  <div class="head-actions">
+   <button onclick="showCart()">🛒 <span id="cartCount">0</span></button>
+   <button onclick="showAdmin()">ADMIN</button>
+  </div>
+ </div>
+ <nav>
+  <a href="#home">Home</a><a href="#shop">Shop</a><a href="#categories">Categories</a>
+  <a href="#contact">Contact</a>
+ </nav>
 </header>
 
-<div class="hero">
-<h1>OFFRACK®</h1>
-<p>WEAR THE CULTURE. FIND YOUR STYLE.</p>
-<button onclick="document.getElementById('shop').scrollIntoView()">SHOP NOW →</button>
-</div>
+<main id="home">
+ <section class="hero">
+  <div>
+   <h1>FIND YOUR<br><span>OFFRACK.</span></h1>
+   <p>Fresh finds. Thrift style. Your next favourite piece.</p>
+   <a class="primary" href="#shop">SHOP NOW</a>
+  </div>
+  <div class="hero-mark">OFFRACK®</div>
+ </section>
 
-<section>
-<h2>SHOP BY CATEGORY</h2>
-<div class="categories">
-<div class="category"><span>👕</span>Tops</div>
-<div class="category"><span>🧥</span>Hoodies</div>
-<div class="category"><span>👖</span>Bottoms</div>
-<div class="category"><span>🧢</span>Accessories</div>
-<div class="category"><span>👟</span>Shoes</div>
-<div class="category"><span>✦</span>More</div>
-</div>
+ <div class="wrap" id="categories">
+  <div class="section-head"><h2>SHOP BY CATEGORY</h2></div>
+  <div class="categories" id="categoryButtons"></div>
+ </div>
+
+ <section class="wrap" id="shop">
+  <div class="section-head">
+   <h2>DISCOVER THE DROP</h2>
+   <span class="muted" id="productCount">0 products</span>
+  </div>
+  <div class="filters">
+   <input id="shopSearch" placeholder="Find something..." oninput="renderProducts()">
+   <select id="sort" onchange="renderProducts()">
+    <option value="new">Newest first</option>
+    <option value="low">Price: low to high</option>
+    <option value="high">Price: high to low</option>
+   </select>
+  </div>
+  <div class="grid" id="products" style="margin-top:15px"></div>
+ </section>
+
+ <section class="wrap" id="contact">
+  <div class="section-head"><h2>NEED HELP?</h2></div>
+  <p>Contact OFFRACK on WhatsApp to ask about products and orders.</p>
+  <button class="primary" onclick="generalWhatsApp()">CHAT WITH OFFRACK</button>
+ </section>
+</main>
+
+<section class="panel" id="admin">
+ <button class="close" onclick="hideAdmin()">CLOSE ✕</button>
+ <h2>OFFRACK CONTROL</h2>
+ <p class="muted">Local product management dashboard</p>
+ <div class="notice"><b>Demo limitation:</b> This dashboard is not protected by secure owner authentication. Products are saved only in this browser. Do not use it for real customer or business data until a secure backend and login are added.</div>
+ <h3 id="formTitle">ADD A PRODUCT</h3>
+ <form id="productForm">
+  <input type="hidden" id="editId">
+  <div class="admin-grid">
+   <div class="field"><label for="pName">Product name</label><input id="pName" required maxlength="70" placeholder="Product name"></div>
+   <div class="field"><label for="pPrice">Price (KSh)</label><input id="pPrice" type="number" min="1" required placeholder="Enter price"></div>
+   <div class="field"><label for="pCategory">Category</label>
+    <select id="pCategory">
+     <option>Clothing</option><option>Shoes</option><option>Bags</option><option>Accessories</option><option>Other</option>
+    </select>
+   </div>
+   <div class="field"><label for="pStock">Stock quantity</label><input id="pStock" type="number" min="0" value="1"></div>
+   <div class="field"><label for="pSize">Size</label><input id="pSize" placeholder="e.g. S, M, L, XL or assorted"></div>
+   <div class="field"><label for="pColour">Colour</label><input id="pColour" placeholder="Product colour"></div>
+  </div>
+  <div class="field"><label for="pDescription">Description</label><textarea id="pDescription" rows="3" placeholder="Describe the product"></textarea></div>
+  <div class="field"><label for="pImage">Product photo</label><input id="pImage" type="file" accept="image/*"></div>
+  <button class="primary" type="submit">SAVE PRODUCT</button>
+  <button class="secondary" type="button" onclick="resetForm()">CLEAR</button>
+ </form>
+ <h3 style="margin-top:30px">YOUR PRODUCTS</h3>
+ <div id="adminProducts"></div>
+ <h3 style="margin-top:25px">LOCAL ORDERS</h3>
+ <p class="muted">WhatsApp orders are sent directly to your WhatsApp. They are not automatically stored in this dashboard.</p>
 </section>
 
-<section id="shop">
-<h2>OUR THRIFT COLLECTION</h2>
-<div class="products" id="products">
-<div class="empty">
-<h3>COMING SOON</h3>
-<p>Fresh finds are on the way.</p>
-</div>
-</div>
-</section>
-
-<div class="whatsapp">
-<h3>ORDER THROUGH WHATSAPP</h3>
-<p>Need help finding something?</p>
-<a href="https://wa.me/254784522316">CHAT WITH OFFRACK →</a>
+<div class="cart-box" id="cartBox" onclick="if(event.target===this)hideCart()">
+ <div class="cart">
+  <button class="close" onclick="hideCart()">CLOSE ✕</button>
+  <h2>YOUR CART</h2>
+  <div id="cartItems"></div>
+  <h3 id="cartTotal">Total: KSh 0</h3>
+  <button class="primary" style="width:100%" onclick="checkout()">ORDER ON WHATSAPP</button>
+ </div>
 </div>
 
 <footer>
-<div class="logo">OFFRACK®</div>
-<p>PRE-LOVED. RE-DEFINED.</p>
-<p>THRIFT • STREETWEAR • VINTAGE</p>
-<p>© 2026 OFFRACK. ALL RIGHTS RESERVED.</p>
+ <div class="logo" style="color:white">OFFRACK<span>®</span></div>
+ <p>YOUR STYLE. YOUR FIND. YOUR OFFRACK.</p>
+ <p>© <span id="year"></span> OFFRACK®. All rights reserved.</p>
+ <button class="admin-link" onclick="showAdmin()">Store management</button>
 </footer>
 
-<nav>
-<a href="#">⌂ Home</a>
-<a href="#shop">▦ Shop</a>
-<a href="#shop">♡ Favourites</a>
-<a href="https://wa.me/254784522316">WhatsApp</a>
-</nav>
+<script>
+const WA_NUMBER="254784522316";
+const STORAGE_KEY="offrack_products_v1";
+const categories=["All","Clothing","Shoes","Bags","Accessories","Other"];
+let products=loadProducts();
+let cart={};
+let activeCategory="All";
 
+function loadProducts(){
+ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]")}
+ catch(e){return []}
+}
+function saveProducts(){
+ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(products))}
+ catch(e){alert("Storage is full. Try using a smaller product photo.");}
+}
+function money(n){return "KSh "+Number(n).toLocaleString("en-KE")}
+function safe(text){
+ return String(text??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function wa(message){
+ window.open("https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(message),"_blank");
+}
+function generalWhatsApp(){
+ wa("Hello OFFRACK! I'm interested in buying from your store. Product I want: [product name]. Size: [size]. Colour: [colour]. Quantity: [quantity]. Please confirm availability and price.");
+}
+function renderCategories(){
+ document.getElementById("categoryButtons").innerHTML=categories.map(c=>
+ `<button class="cat ${activeCategory===c?"active":""}" onclick="setCategory('${c}')">${c}</button>`
+ ).join("");
+}
+function setCategory(c){activeCategory=c;renderCategories();renderProducts()}
+function renderProducts(){
+ const q=(document.getElementById("shopSearch").value||document.getElementById("search").value||"").toLowerCase();
+ let list=products.filter(p=>
+ (activeCategory==="All"||p.category===activeCategory)&&
+ (p.name+" "+p.description+" "+p.category+" "+p.colour).toLowerCase().includes(q)
+ );
+ const sort=document.getElementById("sort").value;
+ if(sort==="low")list.sort((a,b)=>a.price-b.price);
+ if(sort==="high")list.sort((a,b)=>b.price-a.price);
+ document.getElementById("productCount").textContent=list.length+" products";
+ document.getElementById("products").innerHTML=list.length?list.map(p=>`
+ <article class="product">
+  <img src="${p.image||""}" alt="${safe(p.name)}" onerror="this.style.display='none'">
+  <div class="product-info">
+   <div class="muted">${safe(p.category)} · ${p.stock>0?"In stock":"Out of stock"}</div>
+   <h3>${safe(p.name)}</h3>
+   <div class="price">${money(p.price)}</div>
+   <div class="muted">${safe(p.size||"Size not specified")} · ${safe(p.colour||"Colour not specified")}</div>
+   <div class="product-actions">
+    <button class="order" ${p.stock<1?"disabled":""} onclick="orderProduct('${p.id}')">ORDER</button>
+    <button class="heart" onclick="addCart('${p.id}')">ADD TO CART</button>
+   </div>
+  </div>
+ </article>`).join(""):`<div class="empty"><h3>No products found yet.</h3><p>New thrift finds will appear here when added by the store owner.</p></div>`;
+}
+function orderProduct(id){
+ const p=products.find(x=>x.id===id);if(!p)return;
+ if(p.stock<1){alert("This product is out of stock.");return}
+ wa("Hello OFFRACK! I want to order:\nProduct: "+p.name+"\nPrice: "+money(p.price)+"\nSize: "+(p.size||"Please confirm")+"\nColour: "+(p.colour||"Please confirm")+"\nQuantity: 1\nProduct link: "+location.href+"\nPlease confirm availability.");
+}
+function addCart(id){
+ const p=products.find(x=>x.id===id);if(!p||p.stock<1)return;
+ cart[id]=(cart[id]||0)+1;renderCart();
+}
+function showCart(){document.getElementById("cartBox").classList.add("show");renderCart()}
+function hideCart(){document.getElementById("cartBox").classList.remove("show")}
+function renderCart(){
+ let entries=Object.entries(cart).filter(([id,n])=>products.some(p=>p.id===id)&&n>0);
+ let total=0,count=0;
+ document.getElementById("cartItems").innerHTML=entries.length?entries.map(([id,n])=>{
+  const p=products.find(x=>x.id===id);total+=p.price*n;count+=n;
+  return `<div class="cart-row"><div><b>${safe(p.name)}</b><br>${money(p.price)} × ${n}</div><div><button onclick="changeQty('${id}',-1)">−</button> ${n} <button onclick="changeQty('${id}',1)">+</button></div></div>`;
+ }).join(""):"<p>Your cart is empty.</p>";
+ document.getElementById("cartTotal").textContent="Total: "+money(total);
+ document.getElementById("cartCount").textContent=count;
+}
+function changeQty(id,change){
+ const p=products.find(x=>x.id===id);
+ cart[id]=(cart[id]||0)+change;
+ if(cart[id]<1)delete cart[id];
+ else if(p&&cart[id]>p.stock)cart[id]=p.stock;
+ renderCart();
+}
+function checkout(){
+ let entries=Object.entries(cart).filter(([id,n])=>products.some(p=>p.id===id)&&n>0);
+ if(!entries.length){alert("Your cart is empty.");return}
+ let total=0;
+ let lines=entries.map(([id,n])=>{
+  const p=products.find(x=>x.id===id);total+=p.price*n;
+  return p.name+" — "+money(p.price)+" × "+n+" (Size: "+(p.size||"confirm")+", Colour: "+(p.colour||"confirm")+")";
+ });
+ wa("Hello OFFRACK! I'd like to order:\n"+lines.join("\n")+"\nTotal: "+money(total)+"\nPlease confirm availability and delivery details.");
+}
+function showAdmin(){
+ document.getElementById("admin").classList.add("show");
+ renderAdmin();
+ document.getElementById("admin").scrollIntoView({behavior:"smooth"});
+}
+function hideAdmin(){document.getElementById("admin").classList.remove("show")}
+function renderAdmin(){
+ document.getElementById("adminProducts").innerHTML=products.length?products.map(p=>`
+ <div class="admin-product">
+  <img src="${p.image||""}" alt="" onerror="this.style.display='none'">
+  <div style="flex:1"><b>${safe(p.name)}</b><br><small>${money(p.price)} · Stock: ${p.stock}</small></div>
+  <button class="secondary" onclick="editProduct('${p.id}')">EDIT</button>
+  <button class="danger" onclick="deleteProduct('${p.id}')">DELETE</button>
+ </div>`).join(""):"<p>No products added yet.</p>";
+}
+function resetForm(){
+ document.getElementById("productForm").reset();
+ document.getElementById("editId").value="";
+ document.getElementById("formTitle").textContent="ADD A PRODUCT";
+}
+document.getElementById("productForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const id=document.getElementById("editId").value;
+ const old=products.find(p=>p.id===id);
+ const file=document.getElementById("pImage").files[0];
+ let image=old?.image||"";
+ if(file){
+  if(file.size>1200000){alert("Please choose an image under 1.2 MB.");return}
+  image=await new Promise((resolve,reject)=>{
+   const reader=new FileReader();
+   reader.onload=()=>resolve(reader.result);
+   reader.onerror=reject;
+   reader.readAsDataURL(file);
+  });
+ }
+ const product={
+  id:id||("p"+Date.now()),
+  name:document.getElementById("pName").value.trim(),
+  price:Number(document.getElementById("pPrice").value),
+  category:document.getElementById("pCategory").value,
+  stock:Number(document.getElementById("pStock").value),
+  size:document.getElementById("pSize").value.trim(),
+  colour:document.getElementById("pColour").value.trim(),
+  description:document.getElementById("pDescription").value.trim(),
+  image
+ };
+ if(!product.name||product.price<=0||product.stock<0){alert("Check the product details.");return}
+ if(old)products=products.map(p=>p.id===id?product:p);
+ else products.unshift(product);
+ saveProducts();resetForm();renderAdmin();renderProducts();
+ alert("Product saved in this browser.");
+});
+function editProduct(id){
+ const p=products.find(x=>x.id===id);if(!p)return;
+ document.getElementById("editId").value=p.id;
+ document.getElementById("pName").value=p.name;
+ document.getElementById("pPrice").value=p.price;
+ document.getElementById("pCategory").value=p.category;
+ document.getElementById("pStock").value=p.stock;
+ document.getElementById("pSize").value=p.size||"";
+ document.getElementById("pColour").value=p.colour||"";
+ document.getElementById("pDescription").value=p.description||"";
+ document.getElementById("formTitle").textContent="EDIT PRODUCT";
+ document.getElementById("admin").scrollIntoView({behavior:"smooth"});
+}
+function deleteProduct(id){
+ if(!confirm("Delete this product?"))return;
+ products=products.filter(p=>p.id!==id);delete cart[id];
+ saveProducts();renderAdmin();renderProducts();renderCart();
+}
+document.getElementById("search").addEventListener("input",()=>{
+ document.getElementById("shopSearch").value=document.getElementById("search").value;
+ renderProducts();
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+renderCategories();renderProducts();renderCart();
+</script>
 </body>
-  </html>
+</html>
+
   
