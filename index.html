@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFRACK® | Thrift Store</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#090909;color:white;font-family:Arial,sans-serif}
+header{padding:18px;background:#111;position:sticky;top:0;z-index:5}
+.logo{font-size:30px;font-weight:1000;color:#ed101f;letter-spacing:-2px}
+.tag{font-size:10px;letter-spacing:4px;color:#ccc;margin-top:4px}
+.search{margin-top:17px;display:flex;gap:8px}
+.search input{width:100%;padding:14px;border:1px solid #444;border-radius:10px;background:#222;color:white}
+.hero{margin:15px;padding:25px 18px;background:linear-gradient(120deg,#280509,#111);border:1px solid #681018;border-radius:12px;min-height:190px;display:flex;flex-direction:column;justify-content:center}
+.hero h1{font-size:38px;color:#ed101f}
+.hero p{margin:10px 0;color:#ddd}
+button{background:#ed101f;color:white;border:0;padding:12px 18px;border-radius:8px;font-weight:bold}
+section{padding:18px}
+h2{font-size:19px;margin-bottom:15px}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.category{background:#191919;border:1px solid #333;border-radius:10px;padding:20px 5px;text-align:center;font-weight:bold}
+.category span{display:block;font-size:25px;margin-bottom:8px}
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.empty{grid-column:1/-1;text-align:center;padding:35px 12px;background:#151515;border:1px dashed #555;border-radius:10px;color:#aaa}
+.whatsapp{margin:18px;padding:18px;background:#151515;border:1px solid #ed101f;border-radius:12px;text-align:center}
+.whatsapp a{display:block;color:white;text-decoration:none;font-weight:bold;margin-top:12px}
+footer{text-align:center;background:#111;padding:25px;color:#aaa;font-size:12px;line-height:2}
+nav{position:sticky;bottom:0;background:#111;display:flex;justify-content:space-around;padding:15px 4px;border-top:1px solid #333}
+nav a{color:white;text-decoration:none;font-size:12px}
+nav a:first-child{color:#ed101f}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">OFFRACK®</div>
+<div class="tag">THRIFT • STREETWEAR • VINTAGE</div>
+<div class="search">
+<input type="search" placeholder="Search for thrift finds...">
+</div>
+</header>
+
+<div class="hero">
+<h1>OFFRACK®</h1>
+<p>WEAR THE CULTURE. FIND YOUR STYLE.</p>
+<button onclick="document.getElementById('shop').scrollIntoView()">SHOP NOW →</button>
+</div>
+
+<section>
+<h2>SHOP BY CATEGORY</h2>
+<div class="categories">
+<div class="category"><span>👕</span>Tops</div>
+<div class="category"><span>🧥</span>Hoodies</div>
+<div class="category"><span>👖</span>Bottoms</div>
+<div class="category"><span>🧢</span>Accessories</div>
+<div class="category"><span>👟</span>Shoes</div>
+<div class="category"><span>✦</span>More</div>
+</div>
+</section>
+
+<section id="shop">
+<h2>OUR THRIFT COLLECTION</h2>
+<div class="products" id="products">
+<div class="empty">
+<h3>COMING SOON</h3>
+<p>Fresh finds are on the way.</p>
+</div>
+</div>
+</section>
+
+<div class="whatsapp">
+<h3>ORDER THROUGH WHATSAPP</h3>
+<p>Need help finding something?</p>
+<a href="https://wa.me/254784522316">CHAT WITH OFFRACK →</a>
+</div>
+
+<footer>
+<div class="logo">OFFRACK®</div>
+<p>PRE-LOVED. RE-DEFINED.</p>
+<p>THRIFT • STREETWEAR • VINTAGE</p>
+<p>© 2026 OFFRACK. ALL RIGHTS RESERVED.</p>
+</footer>
+
+<nav>
+<a href="#">⌂ Home</a>
+<a href="#shop">▦ Shop</a>
+<a href="#shop">♡ Favourites</a>
+<a href="https://wa.me/254784522316">WhatsApp</a>
+</nav>
+
+</body>
+  </html>
+  
