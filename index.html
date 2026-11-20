@@ -354,6 +354,20 @@ document.getElementById("search").addEventListener("input",()=>{
 document.getElementById("year").textContent=new Date().getFullYear();
 renderCategories();renderProducts();renderCart();
 </script>
+ <script type="module">
+  import { createClient } from
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  const SUPABASE_URL = 'sb_secret_VgQ6TJWZhKXWWdejPwO-3Q_yCoCnOa4';
+  const SUPABASE_KEY = 'sb_publishable_e2e3O5nYPu33mLLTVTdXMQ_DaOrfqvs';
+
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  window.supabase = supabase;
+ </script>
 </body>
 </html>
 
